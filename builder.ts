@@ -197,11 +197,15 @@ export class Builder implements types.OpenAPIObject {
    * @returns {Promise<string>}
    */
   async toJson(spaces: number = 2): Promise<string> {
-    return JSON.stringify({
-      ...(await this.generate()),
-      dirs: undefined,
-      generated: undefined,
-    }, null, spaces);
+    return JSON.stringify(
+      {
+        ...(await this.generate()),
+        dirs: undefined,
+        generated: undefined,
+      },
+      null,
+      spaces
+    );
   }
 
   /**
@@ -247,7 +251,7 @@ export class Builder implements types.OpenAPIObject {
     if (this.generated) {
       return;
     }
-    
+
     const dirs = await readRecursive(dir);
     const files = [];
     for (const path of dirs) {
@@ -271,7 +275,7 @@ export class Builder implements types.OpenAPIObject {
     if (this.generated) {
       return;
     }
-    
+
     const dirs = await readRecursive(dir);
     const files = [];
     for (const path of dirs) {

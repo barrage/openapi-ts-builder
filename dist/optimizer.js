@@ -36,8 +36,7 @@ class RecursiveCleaner {
             this.forClean._id = undefined;
         }
         for (const key in this.forClean) {
-            if (this.forClean[key] &&
-                typeof this.forClean[key] === "object") {
+            if (this.forClean[key] && typeof this.forClean[key] === "object") {
                 new RecursiveCleaner(this.forClean[key]).run();
             }
         }
@@ -72,11 +71,15 @@ class Optimizer {
     cleanup() {
         for (const key in this.builder) {
             if (this.builder[key] && typeof this.builder[key] === "object") {
-                (new RecursiveCleaner(this.builder)).run();
+                new RecursiveCleaner(this.builder).run();
             }
         }
         return this;
     }
+    /**
+     * Return the builder back
+     * @returns {OpenAPIObject}
+     */
     get() {
         return this.builder;
     }

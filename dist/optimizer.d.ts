@@ -14,6 +14,10 @@ export default class Optimizer {
      * Removes all the _id and id markings from all the objects.
      */
     cleanup(): Optimizer;
+    /**
+     * Return the builder back
+     * @returns {OpenAPIObject}
+     */
     get(): OpenAPIObject;
     /**
      * Runner that will run the replacement recursively through RecursiveReplacer for given
