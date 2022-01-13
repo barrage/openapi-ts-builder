@@ -8,6 +8,22 @@ Referencing files outside of your specs is possible with native YAML or JSON Ope
 when you start working on a large project where you might have many paths and objects so we came up with this
 helper that keeps our specs clean and automatically takes care of it compiling into a valid Openapi schema file.
 
+# Generating the specs document
+
+We have also provided a bin that will assist you to easily convert your specs into YAML or JSON files.
+
+```shell
+~$ openapi-ts-builder --help
+Usage: openapi-ts-builder [options] input-file.ts [output-file.yaml]
+       openapi-ts-builder --generate /path/to/desired/specs/dir
+
+Options:
+  --help                        Displays this screen
+  --generate                    helps you generate starting point for writing your spes
+  --format=yaml|json            Defaults to yaml, lets the builder know what format to export
+  --dry-run                     Doesn't create a file, only prints it out in the console
+```
+
 ## Usage
 
 Create a base file that will represent you main Openapi entrypoint:
@@ -43,7 +59,7 @@ in the finished export.
 
 ```typescript
 // components/schemas/Pet.ts
-import { SchemaObject } from "openapi-ts-builder/types";
+import { SchemaObject } from "openapi-ts-builder/dist/types";
 
 export default {
   id: "Pet",
@@ -90,7 +106,7 @@ Paths without it will not be loaded and you'll get an error.
 
 ```typescript
 // paths/PetsPetId.ts
-import { PathItemObject } from "openapi-ts-builder/types";
+import { PathItemObject } from "openapi-ts-builder/dist/types";
 import Pet from "../components/schemas/Pet";
 import Error from "../components/schemas/Error";
 
@@ -131,22 +147,6 @@ export default {
     },
   },
 } as PathItemObject;
-```
-
-# Generating the specs document
-
-We have also provided a bin that will assist you to easily convert your specs into YAML or JSON files.
-
-```shell
-~$ openapi-ts-builder --help
-Usage: openapi-ts-builder [options] input-file.ts [output-file.yaml]
-       openapi-ts-builder --generate /path/to/desired/specs/dir
-
-Options:
-  --help                        Displays this screen
-  --generate                    helps you generate starting point for writing your spes
-  --format=yaml|json            Defaults to yaml, lets the builder know what format to export
-  --dry-run                     Doesn't create a file, only prints it out in the console
 ```
 
 # Example
