@@ -4,7 +4,7 @@ Builder that will allow you to write your Openapi 3.0.x specs as a Typescript fi
 You can import them and work with them as with regular Typescript files and will then compile
 into YAML or JSON with all the `$ref` create automatically pointing to schema objects or responses, or whatever.
 
-Referencing files outside of your specs is possible with native YAML or JSON Openapi specs, but it's not good enoguh
+Referencing files outside of your specs is possible with native YAML or JSON Openapi specs, but it's not good enough
 when you start working on a large project where you might have many paths and objects so we came up with this
 helper that keeps our specs clean and automatically takes care of it compiling into a valid Openapi schema file.
 
