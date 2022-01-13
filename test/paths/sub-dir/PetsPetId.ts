@@ -1,6 +1,6 @@
-import { PathItemObject } from "../../types";
-import Pet from "../components/schemas/Pet";
-import Error from "../components/schemas/Error";
+import { PathItemObject } from "../../../types";
+import Pet from "../../components/schemas/Pet";
+import Error from "../../components/schemas/Error";
 
 export default {
   location: "/pets/{petId}",

@@ -26,7 +26,7 @@ async function readRecursive(dir: string): Promise<string[]> {
     return [];
   }
 
-  const files = [];
+  let files: string[] = [];
 
   for (const filename of await fs.promises.readdir(dir)) {
     if ([".", ".."].indexOf(filename) !== -1) {
@@ -39,7 +39,15 @@ async function readRecursive(dir: string): Promise<string[]> {
       // we need to know which operating system are we using
       prefix = "file://";
     }
-    files.push(`${prefix + dir}/${filename}`);
+
+    const s = await fs.promises.stat(`${prefix + dir}/${filename}`);
+
+    if (s.isDirectory()) {
+      files = files.concat(await readRecursive(p.resolve(dir, filename)));
+    }
+    else {
+      files.push(`${prefix + dir}/${filename}`);
+    }
   }
 
   return files.flat().filter((item, i, arr) => arr.indexOf(item) === i);

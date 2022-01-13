@@ -57,7 +57,7 @@ function readRecursive(dir) {
         catch (error) {
             return [];
         }
-        const files = [];
+        let files = [];
         for (const filename of yield fs.promises.readdir(dir)) {
             if ([".", ".."].indexOf(filename) !== -1) {
                 continue;
@@ -67,7 +67,13 @@ function readRecursive(dir) {
                 // we need to know which operating system are we using
                 prefix = "file://";
             }
-            files.push(`${prefix + dir}/${filename}`);
+            const s = yield fs.promises.stat(`${prefix + dir}/${filename}`);
+            if (s.isDirectory()) {
+                files = files.concat(yield readRecursive(p.resolve(dir, filename)));
+            }
+            else {
+                files.push(`${prefix + dir}/${filename}`);
+            }
         }
         return files.flat().filter((item, i, arr) => arr.indexOf(item) === i);
     });
