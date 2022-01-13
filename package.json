@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/builder.js",
-  "cli": "openapi-ts-builder",
+  "bin": "openapi-ts-builder",
   "scripts": {
     "build": "rm -rf dist/ && node_modules/.bin/ttsc -d",
     "test": "cd test && ./test"
