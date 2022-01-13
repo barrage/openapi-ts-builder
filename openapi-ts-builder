@@ -8,9 +8,11 @@ const fse = require('fs-extra');
 const helpFn = (e) => {
   if (e) console.error(e);
   console.log("Usage: openapi-ts-builder [options] input-file.ts [output-file.yaml]");
+  console.log("       openapi-ts-builder --generate /path/to/desired/specs/dir");
   console.log("");
   console.log("Options:");
   console.log("  --help                        Displays this screen");
+  console.log("  --generate                    helps you generate starting point for writing your spes");
   console.log(
     "  --format=yaml|json            Defaults to yaml, lets the builder know what format to export"
   );

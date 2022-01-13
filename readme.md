@@ -135,7 +135,19 @@ export default {
 
 # Generating the specs document
 
-We have also provided a bin that will assist you to easily convert your specs into YAML or JSON files
+We have also provided a bin that will assist you to easily convert your specs into YAML or JSON files.
+
+```shell
+~$ openapi-ts-builder --help
+Usage: openapi-ts-builder [options] input-file.ts [output-file.yaml]
+       openapi-ts-builder --generate /path/to/desired/specs/dir
+
+Options:
+  --help                        Displays this screen
+  --generate                    helps you generate starting point for writing your spes
+  --format=yaml|json            Defaults to yaml, lets the builder know what format to export
+  --dry-run                     Doesn't create a file, only prints it out in the console
+```
 
 # Example
 
