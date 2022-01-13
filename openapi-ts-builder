@@ -1,0 +1,110 @@
+#!/usr/bin/env node
+
+require("ts-node").register();
+const path = require("path");
+const fs = require("fs");
+const fse = require('fs-extra');
+
+const helpFn = (e) => {
+  if (e) console.error(e);
+  console.log("Usage: openapi-ts-builder [options] input-file.ts [output-file.yaml]");
+  console.log("");
+  console.log("Options:");
+  console.log("  --help                        Displays this screen");
+  console.log(
+    "  --format=yaml|json            Defaults to yaml, lets the builder know what format to export"
+  );
+  console.log(
+    "  --dry-run                     Doesn't create a file, only prints it out in the console"
+  );
+
+  if (e) {
+    process.exit(1);
+  } else {
+    process.exit(0);
+  }
+};
+
+const generateFn = (dir) => {
+  try {
+    const stat = fs.statSync(dir);
+
+    if (!stat.isDirectory()) {
+      throw new Error(`${dir} is a file that already exists.`);
+    }
+  }
+  catch (e) { 
+    fs.mkdirSync(dir, {recursive: true});
+  }
+  
+  fse.copySync(path.resolve(__dirname, "./stub"), dir);
+};
+
+(async () => {
+  const args = process.argv;
+  args.shift();
+  args.shift();
+
+  const flags = args
+    .filter((i) => i.startsWith("--"))
+    .map((i) => i.toLowerCase());
+
+  let help = flags
+    .filter((i) => i.startsWith("--help"))
+    .map((i) => i.replace("--help", ""))[0];
+
+  if (typeof help !== "undefined") {
+    return helpFn();
+  }
+
+  let format = flags
+    .filter((i) => i.startsWith("--format="))
+    .map((i) => i.replace("--format=", ""))[0];
+
+  let dryRun =
+    typeof flags
+      .filter((i) => i.startsWith("--dry-run"))
+      .map((i) => i.replace("--dry-run", ""))[0] === undefined;
+
+  if (["json", "yaml"].indexOf(format) === -1) {
+    format = "yaml";
+  }
+
+  const other = args.filter((i) => !i.startsWith("--"));
+
+  let generate = flags
+    .filter((i) => i.startsWith("--generate"))
+    .map((i) => i.replace("--generate", ""))[0];
+
+  try {
+    const input = path.resolve(other[0]);
+
+    if (typeof generate !== "undefined") {
+      return generateFn(input);
+    }
+
+    const output = path.resolve(other[1] || `./openapi.${format}`);
+
+    const stat = fs.statSync(input);
+
+    if (stat.isDirectory()) {
+      return helpFn(
+        new Error("Generator expecting input file, got directory.")
+      );
+    }
+
+    const loaded = await require(input).default;
+
+    const data = await (format === "yaml" ? loaded.toYaml() : loaded.toJson());
+
+    if (dryRun === true) {
+      return console.log(data);
+    }
+
+    fs.promises.writeFile(output, data, { encoding: "utf8" });
+
+    console.log(`Schema has been created and stored under '${output}'`);
+  } catch (e) {
+    return helpFn(e);
+  }
+})();

@@ -1,0 +1,29 @@
+{
+  "name": "openapi-ts-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/builder.js",
+  "cli": "openapi-ts-builder",
+  "scripts": {
+    "build": "rm -rf dist/ && node_modules/.bin/ttsc -d",
+    "test": "cd test && ./test"
+  },
+  "author": "Tibor Hudik <tibor@barrage.net> (https://barrage.net/)",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "ts-node": "^10.4.0",
+    "uuid": "^8.3.2",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "@zoltu/typescript-transformer-append-js-extension": "^1.0.1",
+    "openapi-schema-validator": "^10.0.0",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.3.4"
+  }
+}

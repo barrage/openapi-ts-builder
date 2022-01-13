@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Generating the openapi.json specs..."
+../openapi-ts-builder --format=json ./petstore.ts ./openapi.json
+
+echo "Running the validation of the generated specs..."
+node validator.js
+
+echo "Removing the generated file..."
+# rm -rf ./openapi.json
+echo "Done!"
