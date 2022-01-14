@@ -72,7 +72,10 @@ function readRecursive(dir) {
                 files = files.concat(yield readRecursive(p.resolve(dir, filename)));
             }
             else {
-                files.push(`${prefix + dir}/${filename}`);
+                const _p = p.parse(`${prefix + dir}/${filename}`);
+                if (["ts", "js", "mjs"].indexOf(_p.ext) !== -1) {
+                    files.push(`${prefix + dir}/${filename}`);
+                }
             }
         }
         return files.flat().filter((item, i, arr) => arr.indexOf(item) === i);

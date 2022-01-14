@@ -46,7 +46,11 @@ async function readRecursive(dir: string): Promise<string[]> {
       files = files.concat(await readRecursive(p.resolve(dir, filename)));
     }
     else {
-      files.push(`${prefix + dir}/${filename}`);
+      const _p = p.parse(`${prefix + dir}/${filename}`);
+
+      if (["ts", "js", "mjs"].indexOf(_p.ext) !== -1) {
+        files.push(`${prefix + dir}/${filename}`);
+      }
     }
   }
 
