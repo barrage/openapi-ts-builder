@@ -73,7 +73,7 @@ function readRecursive(dir) {
             }
             else {
                 const _p = p.parse(`${prefix + dir}/${filename}`);
-                if (["ts", "js", "mjs"].indexOf(_p.ext) !== -1) {
+                if ([".ts", ".js", ".mjs"].indexOf(_p.ext) !== -1) {
                     files.push(`${prefix + dir}/${filename}`);
                 }
             }
